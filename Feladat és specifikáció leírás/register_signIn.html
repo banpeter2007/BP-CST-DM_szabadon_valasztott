@@ -38,6 +38,16 @@
         flex-direction: column;
         gap: 30px;
         padding: 3%;
+        
+
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-top: 3px solid rgba(115, 165, 189, 0.64);
+        
     }
 
     .inputs{
@@ -67,6 +77,12 @@
         background-color: #536c80;
         color: white;
         font-weight: bold;
+
+        transition: transform 0.2s ease-in-out;
+    }
+
+    #signInButton:hover{
+        transform: scale(1.05);
     }
 
     #createOneAccountParagraph{
@@ -75,12 +91,23 @@
 
     #createOneAccountLink{
         text-decoration: none;
+        transition: transform 0.2 ease-in-out;
     }
+
+    #createOneAccountLink:hover{
+        text-decoration: underline;
+    }
+        
+    
+
+    
 </style>
 
 <body>
     <div id="baseBox">
         <div id="signInBox">
+
+            <p style="text-align: center;">Jelentkezz be a fiokódba!</p>
 
             <input type="text" placeholder="E-mail" class="inputs">
             <input type="password" placeholder="Jelszó" class="inputs">
@@ -89,7 +116,7 @@
 
             
 
-            <p id="createOneAccountParagraph">Don't have an account yet? <a href="" id="createOneAccountLink">Create one</a></p>
+            <p id="createOneAccountParagraph">Nincs még fiókod? <a href="" id="createOneAccountLink">Készíts egyet!</a></p>
 
         </div>
     </div>
