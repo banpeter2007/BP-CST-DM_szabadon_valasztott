@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduShare | Sign In</title>
+
+    <link rel="icon" type="image/png" href="../kepek/title_icon.png">
+
+    <!--Google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=MedievalSharp&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    body{
+        height: 100vp;
+        background: #ffffff;
+        background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(115, 165, 189, 0.64) 100%);
+        background-repeat: no-repeat;
+
+        font-family: "Google Sans Code", Georgia, 'Times New Roman', Times, serif;
+    }
+
+    #baseBox{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        align-items: center;
+    }
+
+    #signInBox{
+        display: flex;
+        justify-content: center;
+        width: 25%;
+        background-color: #ffffff;
+        flex-direction: column;
+        gap: 30px;
+        padding: 3%;
+    }
+
+    .inputs{
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 3%;
+        padding-right: 3%;
+        width: 75%;
+        margin: auto;
+
+        /*Style of inputs*/
+        border-radius: 10px;
+        
+    }
+
+    .inputs:hover{
+        background-color: rgb(240, 238, 238);
+    }
+
+    #signInButton{
+        padding-top: 2%;
+        padding-bottom: 2%;
+        width: 50%;
+        margin: auto;
+
+        border-radius: 10px;
+        background-color: #536c80;
+        color: white;
+        font-weight: bold;
+    }
+
+    #createOneAccountParagraph{
+        text-align: center;
+    }
+
+    #createOneAccountLink{
+        text-decoration: none;
+    }
+</style>
+
+<body>
+    <div id="baseBox">
+        <div id="signInBox">
+
+            <input type="text" placeholder="E-mail" class="inputs">
+            <input type="password" placeholder="Jelszó" class="inputs">
+
+            <button type="submit" id="signInButton">Bejelentkezés</button>
+
+            
+
+            <p id="createOneAccountParagraph">Don't have an account yet? <a href="" id="createOneAccountLink">Create one</a></p>
+
+        </div>
+    </div>
+</body>
+</html>
