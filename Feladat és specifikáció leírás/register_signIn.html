@@ -15,7 +15,7 @@
 
 <style>
     body{
-        height: 100vp;
+        height: 100vh;
         background: #ffffff;
         background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(115, 165, 189, 0.64) 100%);
         background-repeat: no-repeat;
@@ -28,6 +28,7 @@
         justify-content: center;
         width: 100%;
         align-items: center;
+        height: 100vh;
     }
 
     #signInBox{
@@ -105,20 +106,44 @@
 
 <body>
     <div id="baseBox">
+
+        <!--<img src="../kepek/EduShare_logo.png" alt="EduShare logo">-->
+
         <div id="signInBox">
 
             <p style="text-align: center;">Jelentkezz be a fiokódba!</p>
 
-            <input type="text" placeholder="E-mail" class="inputs">
-            <input type="password" placeholder="Jelszó" class="inputs">
+            <input type="text" placeholder="E-mail" required class="inputs" id="email_input">
+            <input type="password" placeholder="Jelszó" required class="inputs" id="password_input">
 
             <button type="submit" id="signInButton">Bejelentkezés</button>
 
             
 
-            <p id="createOneAccountParagraph">Nincs még fiókod? <a href="" id="createOneAccountLink">Készíts egyet!</a></p>
+            <p id="createOneAccountParagraph">Nincs még fiókod? <a href="register.html" id="createOneAccountLink">Készíts egyet!</a></p>
 
         </div>
     </div>
 </body>
+
+<script>
+    document.getElementById("signInButton").addEventListener("click", function (e) {
+    const email = document.getElementById("email_input").value;
+    const password = document.getElementById("password_input").value;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+    const passwordRegex = /^[A-Za-z][A-Za-z0-9!@#$%^&*()_\-+=.?]{0,19}$/;
+
+    if (!emailRegex.test(email) || !passwordRegex.test(password)) {
+        e.preventDefault();
+        alert("Kérem érvényes email címet és/vagy jelszót adjon meg!");
+        return;
+    }
+
+    console.log("Email OK:", email);
+    console.log("Password OK:", password);
+});
+
+</script>
+
 </html>
