@@ -11,15 +11,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=MedievalSharp&display=swap" rel="stylesheet">
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <style>
     body{
         height: 100vh;
-        background: #ffffff;
         background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(115, 165, 189, 0.64) 100%);
         background-repeat: no-repeat;
-
         font-family: "Google Sans Code", Georgia, 'Times New Roman', Times, serif;
     }
 
@@ -39,29 +40,17 @@
         flex-direction: column;
         gap: 30px;
         padding: 3%;
-        
-
         border-bottom-left-radius: 30px;
         border-bottom-right-radius: 30px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
         border-top: 3px solid rgba(115, 165, 189, 0.64);
-        
     }
 
     .inputs{
-        padding-top: 2%;
-        padding-bottom: 2%;
-        padding-left: 3%;
-        padding-right: 3%;
+        padding: 2% 3%;
         width: 75%;
         margin: auto;
-
-        /*Style of inputs*/
         border-radius: 10px;
-        
     }
 
     .inputs:hover{
@@ -69,16 +58,13 @@
     }
 
     #signInButton{
-        padding-top: 2%;
-        padding-bottom: 2%;
+        padding: 2%;
         width: 50%;
         margin: auto;
-
         border-radius: 10px;
         background-color: #536c80;
         color: white;
         font-weight: bold;
-
         transition: transform 0.2s ease-in-out;
     }
 
@@ -92,23 +78,15 @@
 
     #createOneAccountLink{
         text-decoration: none;
-        transition: transform 0.2 ease-in-out;
     }
 
     #createOneAccountLink:hover{
         text-decoration: underline;
     }
-        
-    
-
-    
 </style>
 
 <body>
     <div id="baseBox">
-
-        <!--<img src="../kepek/EduShare_logo.png" alt="EduShare logo">-->
-
         <div id="signInBox">
 
             <p style="text-align: center;">Jelentkezz be a fiokódba!</p>
@@ -116,34 +94,53 @@
             <input type="text" placeholder="E-mail" required class="inputs" id="email_input">
             <input type="password" placeholder="Jelszó" required class="inputs" id="password_input">
 
-            <button type="submit" id="signInButton">Bejelentkezés</button>
+            <!-- type="button" fontos -->
+            <button type="button" id="signInButton">Bejelentkezés</button>
 
-            
-
-            <p id="createOneAccountParagraph">Nincs még fiókod? <a href="register.html" id="createOneAccountLink">Készíts egyet!</a></p>
+            <p id="createOneAccountParagraph">
+                Nincs még fiókod?
+                <a href="register.html" id="createOneAccountLink">Készíts egyet!</a>
+            </p>
 
         </div>
     </div>
-</body>
 
 <script>
-    document.getElementById("signInButton").addEventListener("click", function (e) {
-    const email = document.getElementById("email_input").value;
-    const password = document.getElementById("password_input").value;
+    // Supabase adatok
+    const supabaseUrl = "https://mwtkgtkkzlemolumlxab.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13dGtndGtremxlbW9sdW1seGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTc5MDksImV4cCI6MjA4Njc5MzkwOX0.wjd8cnOYRD1Kgb1pRyfCDmpiOgq4LV15LXRn5YT7mWs";
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
-    const passwordRegex = /^[A-Za-z][A-Za-z0-9!@#$%^&*()_\-+=.?]{0,19}$/;
+    // NEM supabase néven, hogy ne ütközzön
+    const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    if (!emailRegex.test(email) || !passwordRegex.test(password)) {
-        e.preventDefault();
-        alert("Kérem érvényes email címet és/vagy jelszót adjon meg!");
-        return;
-    }
+    document.getElementById("signInButton").addEventListener("click", async function () {
 
-    console.log("Email OK:", email);
-    console.log("Password OK:", password);
-});
+        const email = document.getElementById("email_input").value;
+        const password = document.getElementById("password_input").value;
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+        const passwordRegex = /^[A-Za-z][A-Za-z0-9!@#$%^&*()_\-+=.?]{0,19}$/;
+
+        // Saját validáció megmarad
+        if (!emailRegex.test(email) || !passwordRegex.test(password)) {
+            alert("Kérem érvényes email címet és/vagy jelszót adjon meg!");
+            return;
+        }
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            alert("Hibás email vagy jelszó!");
+            console.error(error.message);
+        } else {
+            // Sikeres login
+            window.location.href = "main.html";
+        }
+    });
 </script>
 
+</body>
 </html>
