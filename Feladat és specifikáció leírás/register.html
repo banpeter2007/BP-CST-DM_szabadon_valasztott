@@ -3,11 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Regisztráció</h1>
+    <title>EduShare | Register</title>
 
-    <button type="button" onclick="window.location.href='register_signIn.html'">Vissza</button>
+    <link rel="icon" type="image/png" href="../kepek/title_icon2.png">
+
+    <!--Google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=MedievalSharp&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    body{
+        height: 100vh;
+        background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(115, 165, 189, 0.64) 100%);
+        background-repeat: no-repeat;
+        font-family: "Google Sans Code", Georgia, 'Times New Roman', Times, serif;
+    }
+
+    #baseBox{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        align-items: center;
+        height: 100vh;
+
+        position: relative;
+    }
+
+    #logoImage{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+    }
+
+    #RegisterBox{
+        display: flex;
+        justify-content: center;
+        width: 25%;
+        background-color: #ffffff;
+        flex-direction: column;
+        gap: 30px;
+        padding: 3%;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-top: 3px solid rgba(115, 165, 189, 0.64);
+    }
+
+    .inputs{
+        padding: 2% 3%;
+        width: 75%;
+        margin: auto;
+        border-radius: 10px;
+    }
+
+    .inputs:hover{
+        background-color: rgb(240, 238, 238);
+    }
+
+    #RegisterButton{
+        padding: 2%;
+        width: 50%;
+        margin: auto;
+        border-radius: 10px;
+        background-color: #536c80;
+        color: white;
+        font-weight: bold;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    #RegisterButton:hover{
+        transform: scale(1.05);
+    }
+
+    #createOneAccountParagraph{
+        text-align: center;
+    }
+
+    #createOneAccountLink{
+        text-decoration: none;
+    }
+
+    #createOneAccountLink:hover{
+        text-decoration: underline;
+    }
+</style>
+
+<body>
+    <div id="baseBox">
+
+        <div id="logoImage">
+            <img src="../kepek/main_logo.png" alt="" height="70px" width="auto">
+        </div>
+
+        <div id="RegisterBox">
+
+            <p style="text-align: center;">Regisztráció</p>
+
+            <input type="text" placeholder="Vezetéknév" required class="inputs" id="lastName_input">
+            <input type="text" placeholder="Keresztnév" required class="inputs" id="firstName_input">
+            <input type="text" placeholder="E-mail" required class="inputs" id="email_input">
+            <input type="password" placeholder="Jelszó" required class="inputs" id="password_input">
+
+            <!-- type="button" fontos -->
+            <button type="button" id="RegisterButton">Regisztrálok!</button>
+
+            <p id="createOneAccountParagraph">
+                Van már fiókod?
+                <a href="register_signIn.html" id="createOneAccountLink">Jelentkezz be!</a>
+            </p>
+
+        </div>
+    </div>
+
+<script>
+    /* Supabase adatok
+    const supabaseUrl = "https://mwtkgtkkzlemolumlxab.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13dGtndGtremxlbW9sdW1seGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTc5MDksImV4cCI6MjA4Njc5MzkwOX0.wjd8cnOYRD1Kgb1pRyfCDmpiOgq4LV15LXRn5YT7mWs";
+
+     NEM supabase néven, hogy ne ütközzön
+    const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+    */
+
+    document.getElementById("RegisterButton").addEventListener("click", async function () {
+
+        let fullName = document.getElementById("lastName_input").value + " " + document.getElementById("firstName_input").value;
+        console.log(fullName);
+
+        const lastName = document.getElementById("lastName_input").value;
+        const firstName = document.getElementById("firstName_input").value;
+        const email = document.getElementById("email_input").value;
+        const password = document.getElementById("password_input").value;
+
+        const lastNameRegex = /^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$/;
+        const firstNameRegex = /^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+
+        // Saját validáció megmarad
+        if (!emailRegex.test(email) || !passwordRegex.test(password) || !lastNameRegex.test(lastName) || !firstNameRegex.test(firstName)) {
+            alert("Kérem érvényes adatokat adjon meg!");
+            return;
+        }
+
+        /*
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            alert("Hibás email vagy jelszó!");
+            console.error(error.message);
+        } else {
+            // Sikeres login
+            window.location.href = "main.html";
+        }
+            */
+    });
+</script>
+
 </body>
 </html>
