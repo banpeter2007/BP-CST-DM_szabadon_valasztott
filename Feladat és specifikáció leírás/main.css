@@ -1,0 +1,59 @@
+body{
+    height:100vh;
+    background: linear-gradient(135deg,rgba(255,255,255,1) 0%, rgba(115,165,189,0.64) 100%);
+    font-family:"Google Sans Code", serif;
+    margin:0;
+}
+
+#baseBox{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+#mainBox{
+    width:75%;
+    background:white;
+    border-radius:30px;
+    padding:40px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    border-top:3px solid rgba(115,165,189,0.64);
+}
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+
+.navButton{
+    background:#536c80;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.2s;
+    margin-right:10px;
+}
+
+.navButton:hover{
+    transform:scale(1.05);
+}
+
+.section{ display:none; }
+
+.card{
+    background:#f9f9f9;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:15px;
+}
+
+input{
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    margin:5px;
+}
