@@ -45,10 +45,17 @@ nav{
 .section{ display:none; }
 
 .card{
-    background:#f9f9f9;
-    padding:15px;
-    margin-bottom:15px;
-    border-radius:15px;
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.08);
+    transition:all 0.2s ease;
+    border-left:4px solid rgba(115,165,189,0.7);
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.12);
 }
 
 input{
@@ -56,4 +63,46 @@ input{
     border-radius:8px;
     border:1px solid #ccc;
     margin:5px;
+}
+
+#availableSlots,
+#myBookings,
+#myAvailabilities,
+#bookedToMe{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:20px;
+}
+
+button{
+    background:#536c80;
+    color:white;
+    border:none;
+    padding:8px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+button:hover{
+    background:#405464;
+    transform:scale(1.05);
+}
+
+.rating{
+    background:#fff8dc;
+    padding:4px 8px;
+    border-radius:8px;
+    display:inline-block;
+}
+
+@media (max-width: 700px){
+
+    #availableSlots,
+    #myBookings,
+    #myAvailabilities,
+    #bookedToMe{
+        grid-template-columns: 1fr;
+    }
+
 }

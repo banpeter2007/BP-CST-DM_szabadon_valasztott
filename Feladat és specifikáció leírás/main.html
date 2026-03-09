@@ -11,14 +11,27 @@
 
 <style>
 .section { display:none; }
+
 .card {
     background:#f4f4f4;
-    padding:10px;
+    padding:15px;
     margin:10px 0;
-    border-radius:8px;
+    border-radius:16px;
+    text-align:center;
 }
+
 nav { margin-bottom:20px; }
-button { padding:6px 10px; margin:4px; cursor:pointer; }
+
+button {
+    padding:6px 10px;
+    margin:4px;
+    cursor:pointer;
+}
+
+.rating{
+    color:#f2b01e;
+    font-weight:bold;
+}
 </style>
 </head>
 
@@ -32,9 +45,12 @@ button { padding:6px 10px; margin:4px; cursor:pointer; }
 
 <!-- HELPER -->
 <div id="helper" class="section">
+
 <h2>Időpont létrehozása</h2>
+
 <input type="datetime-local" id="startTime">
 <input type="datetime-local" id="endTime">
+
 <button onclick="createAvailability()">Létrehozás</button>
 
 <h3>Saját időpontjaim</h3>
@@ -42,20 +58,24 @@ button { padding:6px 10px; margin:4px; cursor:pointer; }
 
 <h3>Hozzám foglalt időpontok</h3>
 <div id="bookedToMe"></div>
+
 </div>
 
 <!-- STUDENT -->
 <div id="student" class="section">
+
 <h2>Elérhető időpontok</h2>
 <div id="availableSlots"></div>
 
 <h3>Saját foglalásaim</h3>
 <div id="myBookings"></div>
+
 </div>
 
 <script>
 
 // ---------------- SUPABASE INIT ----------------
+
 const client = supabase.createClient(
   "https://mwtkgtkkzlemolumlxab.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13dGtndGtremxlbW9sdW1seGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTc5MDksImV4cCI6MjA4Njc5MzkwOX0.wjd8cnOYRD1Kgb1pRyfCDmpiOgq4LV15LXRn5YT7mWs"
@@ -64,20 +84,26 @@ const client = supabase.createClient(
 let currentUser = null;
 let currentRole = null;
 
-// ---------------- ALAP FÜGGVÉNYEK ----------------
+// ---------------- SECTION SWITCH ----------------
+
 function showSection(id){
     document.querySelectorAll(".section")
         .forEach(s => s.style.display="none");
+
     document.getElementById(id).style.display="block";
 }
+
+// ---------------- LOGOUT ----------------
 
 async function logout(){
     await client.auth.signOut();
     window.location.href="register_signIn.html";
 }
 
-// ---------------- USER CHECK + ROLE ----------------
+// ---------------- USER CHECK ----------------
+
 async function checkUser(){
+
     const { data:{ user } } = await client.auth.getUser();
 
     if(!user){
@@ -87,29 +113,28 @@ async function checkUser(){
 
     currentUser = user;
 
-    // Lekérjük a role-t a profiles táblából
     const { data:profile, error } = await client
         .from("profiles")
         .select("role")
         .eq("id", currentUser.id)
         .single();
 
-    if(error) {
-        console.error("Profile fetch error:", error);
-        currentRole = "student"; // default
-    } else {
+    if(error){
+        console.error(error);
+        currentRole = "student";
+    }else{
         currentRole = profile?.role || "student";
     }
 
     await loadHelperData();
     await loadStudentData();
 
-    // Role alapján jelenítjük meg az elejét
     if(currentRole === "helper") showSection("helper");
     else showSection("student");
 }
 
-// ---------------- HELPER RÉSZ ----------------
+// ---------------- HELPER FUNCTIONS ----------------
+
 async function createAvailability(){
 
     const start = document.getElementById("startTime").value;
@@ -135,26 +160,27 @@ async function loadHelperData(){
 
     if(currentRole !== "helper") return;
 
-    // Saját időpontok
     const { data:slots } = await client
         .from("availabilities")
         .select("*")
         .eq("user_id", currentUser.id)
-        .order("start_time", { ascending:true });
+        .order("start_time",{ascending:true});
 
     const container = document.getElementById("myAvailabilities");
     container.innerHTML="";
 
     slots?.forEach(slot=>{
+
         container.innerHTML+=`
         <div class="card">
-        ${new Date(slot.start_time).toLocaleString()} -
+        ${new Date(slot.start_time).toLocaleString()}
+        <br>
         ${new Date(slot.end_time).toLocaleString()}
-        <br>Foglalt: ${slot.is_booked ? "Igen" : "Nem"}
+        <br>
+        Foglalt: ${slot.is_booked ? "Igen" : "Nem"}
         </div>`;
     });
 
-    // Hozzám foglalt
     const { data:sessions } = await client
         .from("sessions")
         .select(`
@@ -167,25 +193,31 @@ async function loadHelperData(){
     bookedContainer.innerHTML="";
 
     sessions?.forEach(s=>{
+
         bookedContainer.innerHTML+=`
         <div class="card">
         Diák: ${s.profiles?.full_name || "Ismeretlen"}
-        <br>${new Date(s.start_time).toLocaleString()}
+        <br>
+        ${new Date(s.start_time).toLocaleString()}
         </div>`;
     });
 }
 
-// ---------------- STUDENT RÉSZ ----------------
+// ---------------- STUDENT FUNCTIONS ----------------
+
 async function loadStudentData(){
 
     if(currentRole !== "student") return;
 
-    // Szabad időpontok
     const { data:slots } = await client
         .from("availabilities")
         .select(`
             *,
-            profiles(full_name)
+            profiles(
+                id,
+                full_name,
+                reviews!reviews_reviewed_user_id_fkey(rating)
+            )
         `)
         .eq("is_booked", false);
 
@@ -193,12 +225,24 @@ async function loadStudentData(){
     container.innerHTML="";
 
     slots?.forEach(slot=>{
+
         if(slot.user_id === currentUser.id) return;
+
+        let ratings = slot.profiles?.reviews || [];
+        let avgRating = 0;
+
+        if(ratings.length > 0){
+            avgRating = ratings.reduce((sum,r)=>sum+r.rating,0)/ratings.length;
+            avgRating = avgRating.toFixed(1);
+        }
 
         container.innerHTML+=`
         <div class="card">
         Helper: ${slot.profiles?.full_name || "Ismeretlen"}
-        <br>${new Date(slot.start_time).toLocaleString()}
+        <br>
+        <span class="rating">⭐ ${avgRating || "Nincs értékelés"}</span>
+        <br>
+        ${new Date(slot.start_time).toLocaleString()}
         <br>
         <button onclick="bookSlot('${slot.id}','${slot.user_id}','${slot.start_time}','${slot.end_time}')">
         Foglalás
@@ -206,7 +250,6 @@ async function loadStudentData(){
         </div>`;
     });
 
-    // Saját foglalások
     const { data:mySessions } = await client
         .from("sessions")
         .select(`
@@ -219,15 +262,18 @@ async function loadStudentData(){
     myContainer.innerHTML="";
 
     mySessions?.forEach(s=>{
+
         myContainer.innerHTML+=`
         <div class="card">
         Helper: ${s.profiles?.full_name || "Ismeretlen"}
-        <br>${new Date(s.start_time).toLocaleString()}
+        <br>
+        ${new Date(s.start_time).toLocaleString()}
         </div>`;
     });
 }
 
-// ---------------- FOGALÁS ----------------
+// ---------------- BOOK SLOT ----------------
+
 async function bookSlot(avId, helperId, start, end){
 
     await client.from("sessions").insert({
@@ -238,16 +284,19 @@ async function bookSlot(avId, helperId, start, end){
         status: "booked"
     });
 
-    await client.from("availabilities")
-        .update({ is_booked:true })
-        .eq("id", avId);
+    await client
+        .from("availabilities")
+        .update({is_booked:true})
+        .eq("id",avId);
 
     alert("Foglalás sikeres!");
+
     loadStudentData();
     loadHelperData();
 }
 
 // ---------------- INIT ----------------
+
 checkUser();
 
 </script>
