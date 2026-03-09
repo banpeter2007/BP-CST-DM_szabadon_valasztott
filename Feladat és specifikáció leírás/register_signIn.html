@@ -36,7 +36,7 @@
 
     #logoImage{
         position: absolute;
-        top: 0px;
+        top: 10px;
         left: 0px;
     }
 
@@ -91,6 +91,15 @@
     #createOneAccountLink:hover{
         text-decoration: underline;
     }
+
+    #place_for_error_message {
+        opacity: 0;
+        transition: opacity 0.5s ease; /* 0.5s alatt halványodik */
+        text-align: center;
+        margin-top: -20px;
+        font-weight: bold;
+    }
+
 </style>
 
 <body>
@@ -106,6 +115,8 @@
 
             <input type="text" placeholder="E-mail" required class="inputs" id="email_input">
             <input type="password" placeholder="Jelszó" required class="inputs" id="password_input">
+
+            <p id="place_for_error_message"></p>
 
             <!-- type="button" fontos -->
             <button type="button" id="signInButton">Bejelentkezés</button>
@@ -134,12 +145,37 @@
         const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
 
+        const namelist = [];
+        namelist.push("email_input");
+        namelist.push("password_input");
+
         // Saját validáció megmarad
         if (!emailRegex.test(email) || !passwordRegex.test(password)) {
-            alert("Kérem érvényes email címet és/vagy jelszót adjon meg!");
+            //alert("Kérem érvényes email címet és/vagy jelszót adjon meg!");
+            const button = document.getElementById("signInButton");
+            const asd = document.getElementById("place_for_error_message");
+            asd.textContent = "Hibás bejelentkezési adatok!"
+            asd.style.color = "red";
+            asd.style.textAlign = "center";
+            asd.style.fontSize = "small";
+
+            asd.style.opacity = "1";
+            
+            button.insertAdjacentElement("beforebegin", asd)
+
+            setTimeout(() => {
+                asd.style.opacity = "0";
+
+                setTimeout(() => {
+                    asd.textContent = "";
+                }, 500)
+            }, 2000); 
+
             return;
         }
 
+
+        //supabase részleg:
         const { data, error } = await supabaseClient.auth.signInWithPassword({
             email: email,
             password: password
