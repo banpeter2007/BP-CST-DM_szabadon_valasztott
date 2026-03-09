@@ -33,7 +33,7 @@
 
     #logoImage{
         position: absolute;
-        top: 0px;
+        top: 10px;
         left: 0px;
     }
 
@@ -88,6 +88,16 @@
     #createOneAccountLink:hover{
         text-decoration: underline;
     }
+
+
+
+    #place_for_error_message {
+    opacity: 0;
+    transition: opacity 0.5s ease; 
+    text-align: center;
+    margin-top: -20px;
+    font-weight: bold;
+}
 </style>
 
 <body>
@@ -104,7 +114,9 @@
             <input type="text" placeholder="Vezetéknév" required class="inputs" id="lastName_input">
             <input type="text" placeholder="Keresztnév" required class="inputs" id="firstName_input">
             <input type="text" placeholder="E-mail" required class="inputs" id="email_input">
-            <input type="password" placeholder="Jelszó" required class="inputs" id="password_input">
+            <input type="password" placeholder="Jelszó" required class="inputs" id="password_input" title="A jelszónak tartalmaznia kell kisbetűt, nagybetűt, számot, és legalább 6 karakter hosszú legyen">
+
+            <p id="place_for_error_message"></p>
 
             <!-- type="button" fontos -->
             <button type="button" id="RegisterButton">Regisztrálok!</button>
@@ -118,13 +130,6 @@
     </div>
 
 <script>
-    /* Supabase adatok
-    const supabaseUrl = "https://mwtkgtkkzlemolumlxab.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13dGtndGtremxlbW9sdW1seGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTc5MDksImV4cCI6MjA4Njc5MzkwOX0.wjd8cnOYRD1Kgb1pRyfCDmpiOgq4LV15LXRn5YT7mWs";
-
-     NEM supabase néven, hogy ne ütközzön
-    const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-    */
 
     document.getElementById("RegisterButton").addEventListener("click", async function () {
 
@@ -141,26 +146,60 @@
         const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
 
+
+        const namelist = [];
+        namelist.push("lastName_input");
+        namelist.push("firstName_input");
+        namelist.push("email_input");
+        namelist.push("password_input");
+
         // Saját validáció megmarad
         if (!emailRegex.test(email) || !passwordRegex.test(password) || !lastNameRegex.test(lastName) || !firstNameRegex.test(firstName)) {
-            alert("Kérem érvényes adatokat adjon meg!");
+            //alert("Kérem, érvényes adatokat adjon meg!");
+            const button = document.getElementById("RegisterButton");
+            const asd = document.getElementById("place_for_error_message");
+            asd.textContent = "Kérem, érvényes adatokat adjon meg!"
+            asd.style.color = "red";
+            asd.style.textAlign = "center";
+            asd.style.fontSize = "small";
+
+            asd.style.opacity = "1";
+            
+            button.insertAdjacentElement("beforebegin", asd)
+
+            setTimeout(() => {
+                asd.style.opacity = "0";
+
+                setTimeout(() => {
+                    asd.textContent = "";
+                }, 500)
+            }, 2000); 
+
             return;
         }
 
-        /*
-        const { data, error } = await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
+        else{
+             for (const item of namelist){
+                document.getElementById(item).value = "";
+             };
 
-        if (error) {
-            alert("Hibás email vagy jelszó!");
-            console.error(error.message);
-        } else {
-            // Sikeres login
-            window.location.href = "main.html";
+            const button2 = document.getElementById("RegisterButton");
+            const asd2 = document.getElementById("place_for_error_message");
+            asd2.textContent = "Sikeres regisztráció!";
+            asd2.style.color = "green";
+            asd2.style.textAlign = "center";
+            asd2.style.fontSize = "small";
+            
+            asd2.style.opacity = "1";
+
+            button2.insertAdjacentElement("beforebegin", asd2)
+
+            
+            setTimeout(() => {
+                window.location.href = "teszt.html";
+            }, 2000)
+        
         }
-            */
     });
 </script>
 
