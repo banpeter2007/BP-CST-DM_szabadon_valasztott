@@ -1,206 +1,230 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduShare | Register</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduShare | Register</title>
 
-    <link rel="icon" type="image/png" href="../kepek/title_icon2.png">
+<link rel="icon" type="image/png" href="../kepek/title_icon2.png">
 
-    <!--Google fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=MedievalSharp&display=swap" rel="stylesheet">
-</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@300..800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-    body{
-        height: 100vh;
-        background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(115, 165, 189, 0.64) 100%);
-        background-repeat: no-repeat;
-        font-family: "Google Sans Code", Georgia, 'Times New Roman', Times, serif;
-    }
 
-    #baseBox{
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        align-items: center;
-        height: 100vh;
-
-        position: relative;
-    }
-
-    #logoImage{
-        position: absolute;
-        top: 10px;
-        left: 0px;
-    }
-
-    #RegisterBox{
-        display: flex;
-        justify-content: center;
-        width: 25%;
-        background-color: #ffffff;
-        flex-direction: column;
-        gap: 30px;
-        padding: 3%;
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        border-top: 3px solid rgba(115, 165, 189, 0.64);
-    }
-
-    .inputs{
-        padding: 2% 3%;
-        width: 75%;
-        margin: auto;
-        border-radius: 10px;
-    }
-
-    .inputs:hover{
-        background-color: rgb(240, 238, 238);
-    }
-
-    #RegisterButton{
-        padding: 2%;
-        width: 50%;
-        margin: auto;
-        border-radius: 10px;
-        background-color: #536c80;
-        color: white;
-        font-weight: bold;
-        transition: transform 0.2s ease-in-out;
-    }
-
-    #RegisterButton:hover{
-        transform: scale(1.05);
-    }
-
-    #createOneAccountParagraph{
-        text-align: center;
-    }
-
-    #createOneAccountLink{
-        text-decoration: none;
-    }
-
-    #createOneAccountLink:hover{
-        text-decoration: underline;
-    }
-
-
-
-    #place_for_error_message {
-    opacity: 0;
-    transition: opacity 0.5s ease; 
-    text-align: center;
-    margin-top: -20px;
-    font-weight: bold;
+body{
+height:100vh;
+background:linear-gradient(135deg,rgba(255,255,255,1) 0%, rgba(115,165,189,0.64) 100%);
+font-family:"Google Sans Code",serif;
+margin:0;
 }
+
+#baseBox{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+position:relative;
+}
+
+#logoImage{
+position:absolute;
+top:10px;
+left:0px;
+}
+
+#RegisterBox{
+display:flex;
+justify-content:center;
+width:25%;
+background:white;
+flex-direction:column;
+gap:25px;
+padding:3%;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+border-top:3px solid rgba(115,165,189,0.64);
+}
+
+.inputs{
+padding:10px;
+width:75%;
+margin:auto;
+border-radius:10px;
+border:1px solid #ccc;
+}
+
+.inputs:hover{
+background-color:rgb(240,238,238);
+}
+
+#RegisterButton{
+padding:10px;
+width:50%;
+margin:auto;
+border-radius:10px;
+background:#536c80;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.2s;
+border:none;
+}
+
+#RegisterButton:hover{
+transform:scale(1.05);
+}
+
+#place_for_error_message{
+opacity:0;
+transition:opacity 0.5s ease;
+text-align:center;
+margin-top:-10px;
+font-weight:bold;
+}
+
+#createOneAccountParagraph{
+text-align:center;
+}
+
+#createOneAccountLink{
+text-decoration:none;
+}
+
+#createOneAccountLink:hover{
+text-decoration:underline;
+}
+
 </style>
+</head>
 
 <body>
-    <div id="baseBox">
 
-        <div id="logoImage">
-            <img src="../kepek/main_logo.png" alt="" height="70px" width="auto">
-        </div>
+<div id="baseBox">
 
-        <div id="RegisterBox">
+<div id="logoImage">
+<img src="../kepek/main_logo.png" height="70">
+</div>
 
-            <p style="text-align: center;">Regisztráció</p>
+<div id="RegisterBox">
 
-            <input type="text" placeholder="Vezetéknév" required class="inputs" id="lastName_input">
-            <input type="text" placeholder="Keresztnév" required class="inputs" id="firstName_input">
-            <input type="text" placeholder="E-mail" required class="inputs" id="email_input">
-            <input type="password" placeholder="Jelszó" required class="inputs" id="password_input" title="A jelszónak tartalmaznia kell kisbetűt, nagybetűt, számot, és legalább 6 karakter hosszú legyen">
+<p style="text-align:center;">Regisztráció</p>
 
-            <p id="place_for_error_message"></p>
+<input type="text" placeholder="Vezetéknév" class="inputs" id="lastName_input">
+<input type="text" placeholder="Keresztnév" class="inputs" id="firstName_input">
+<input type="text" placeholder="E-mail" class="inputs" id="email_input">
+<input type="password" placeholder="Jelszó" class="inputs" id="password_input">
 
-            <!-- type="button" fontos -->
-            <button type="button" id="RegisterButton">Regisztrálok!</button>
+<p id="place_for_error_message"></p>
 
-            <p id="createOneAccountParagraph">
-                Van már fiókod?
-                <a href="register_signIn.html" id="createOneAccountLink">Jelentkezz be!</a>
-            </p>
+<button id="RegisterButton">Regisztrálok!</button>
 
-        </div>
-    </div>
+<p id="createOneAccountParagraph">
+Van már fiókod?
+<a href="register_signIn.html" id="createOneAccountLink">Jelentkezz be!</a>
+</p>
+
+</div>
+</div>
 
 <script>
 
-    document.getElementById("RegisterButton").addEventListener("click", async function () {
+// SUPABASE
+const supabaseUrl = "https://mwtkgtkkzlemolumlxab.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13dGtndGtremxlbW9sdW1seGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTc5MDksImV4cCI6MjA4Njc5MzkwOX0.wjd8cnOYRD1Kgb1pRyfCDmpiOgq4LV15LXRn5YT7mWs";
 
-        let fullName = document.getElementById("lastName_input").value + " " + document.getElementById("firstName_input").value;
-        console.log(fullName);
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        const lastName = document.getElementById("lastName_input").value;
-        const firstName = document.getElementById("firstName_input").value;
-        const email = document.getElementById("email_input").value;
-        const password = document.getElementById("password_input").value;
+// ERROR MESSAGE BOX
+const errorBox = document.getElementById("place_for_error_message");
 
-        const lastNameRegex = /^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$/;
-        const firstNameRegex = /^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$/;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+function showMessage(text,color){
 
+errorBox.textContent=text;
+errorBox.style.color=color;
+errorBox.style.opacity="1";
 
-        const namelist = [];
-        namelist.push("lastName_input");
-        namelist.push("firstName_input");
-        namelist.push("email_input");
-        namelist.push("password_input");
+setTimeout(()=>{
+errorBox.style.opacity="0";
 
-        // Saját validáció megmarad
-        if (!emailRegex.test(email) || !passwordRegex.test(password) || !lastNameRegex.test(lastName) || !firstNameRegex.test(firstName)) {
-            //alert("Kérem, érvényes adatokat adjon meg!");
-            const button = document.getElementById("RegisterButton");
-            const asd = document.getElementById("place_for_error_message");
-            asd.textContent = "Kérem, érvényes adatokat adjon meg!"
-            asd.style.color = "red";
-            asd.style.textAlign = "center";
-            asd.style.fontSize = "small";
+setTimeout(()=>{
+errorBox.textContent="";
+},500);
 
-            asd.style.opacity = "1";
-            
-            button.insertAdjacentElement("beforebegin", asd)
+},2000);
 
-            setTimeout(() => {
-                asd.style.opacity = "0";
+}
 
-                setTimeout(() => {
-                    asd.textContent = "";
-                }, 500)
-            }, 2000); 
+// INPUT CLEAR ERROR
+document.querySelectorAll(".inputs").forEach(input=>{
+input.addEventListener("input",()=>{
+errorBox.style.opacity="0";
+});
+});
 
-            return;
-        }
+// REGISTER
+document.getElementById("RegisterButton").addEventListener("click", async function(){
 
-        else{
-             for (const item of namelist){
-                document.getElementById(item).value = "";
-             };
+const lastName=document.getElementById("lastName_input").value.trim();
+const firstName=document.getElementById("firstName_input").value.trim();
+const email=document.getElementById("email_input").value.trim();
+const password=document.getElementById("password_input").value;
 
-            const button2 = document.getElementById("RegisterButton");
-            const asd2 = document.getElementById("place_for_error_message");
-            asd2.textContent = "Sikeres regisztráció!";
-            asd2.style.color = "green";
-            asd2.style.textAlign = "center";
-            asd2.style.fontSize = "small";
-            
-            asd2.style.opacity = "1";
+const fullName=lastName+" "+firstName;
 
-            button2.insertAdjacentElement("beforebegin", asd2)
+// REGEX
+const nameRegex=/^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$/;
+const emailRegex=/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+const passwordRegex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
 
-            
-            setTimeout(() => {
-                window.location.href = "teszt.html";
-            }, 2000)
-        
-        }
-    });
+// VALIDATION
+if(!nameRegex.test(lastName) ||
+   !nameRegex.test(firstName) ||
+   !emailRegex.test(email) ||
+   !passwordRegex.test(password)){
+
+showMessage("Kérem érvényes adatokat adjon meg!","red");
+return;
+
+}
+
+// SUPABASE REGISTER
+const {data,error}=await supabaseClient.auth.signUp({
+email:email,
+password:password
+});
+
+if(error){
+showMessage("Hiba a regisztráció során!","red");
+console.error(error.message);
+return;
+}
+
+// PROFILE INSERT
+await supabaseClient.from("profiles").insert({
+id:data.user.id,
+full_name:fullName,
+role:"student"
+});
+
+// CLEAR INPUTS
+document.querySelectorAll(".inputs").forEach(input=>{
+input.value="";
+});
+
+showMessage("Sikeres regisztráció!","green");
+
+// REDIRECT
+setTimeout(()=>{
+window.location.href="register_signIn.html";
+},2000);
+
+});
+
 </script>
 
 </body>
