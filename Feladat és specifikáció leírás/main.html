@@ -1,19 +1,256 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>EduShare | Home</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduShare</title>
 
-        <link rel="icon" type="image/png" href="../kepek/title_icon.png">
+<link rel="stylesheet" href="main.css">
 
-        <!--Google fonts-->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=MedievalSharp&display=swap" rel="stylesheet">
-    </head>
-        <style>
-        </style>
-    <body>
-    </body>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<style>
+.section { display:none; }
+.card {
+    background:#f4f4f4;
+    padding:10px;
+    margin:10px 0;
+    border-radius:8px;
+}
+nav { margin-bottom:20px; }
+button { padding:6px 10px; margin:4px; cursor:pointer; }
+</style>
+</head>
+
+<body>
+
+<nav>
+<button onclick="showSection('helper')">👨‍🏫 Helper</button>
+<button onclick="showSection('student')">🎓 Student</button>
+<button onclick="logout()">Kijelentkezés</button>
+</nav>
+
+<!-- HELPER -->
+<div id="helper" class="section">
+<h2>Időpont létrehozása</h2>
+<input type="datetime-local" id="startTime">
+<input type="datetime-local" id="endTime">
+<button onclick="createAvailability()">Létrehozás</button>
+
+<h3>Saját időpontjaim</h3>
+<div id="myAvailabilities"></div>
+
+<h3>Hozzám foglalt időpontok</h3>
+<div id="bookedToMe"></div>
+</div>
+
+<!-- STUDENT -->
+<div id="student" class="section">
+<h2>Elérhető időpontok</h2>
+<div id="availableSlots"></div>
+
+<h3>Saját foglalásaim</h3>
+<div id="myBookings"></div>
+</div>
+
+<script>
+
+// ---------------- SUPABASE INIT ----------------
+const client = supabase.createClient(
+  "https://mwtkgtkkzlemolumlxab.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13dGtndGtremxlbW9sdW1seGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTc5MDksImV4cCI6MjA4Njc5MzkwOX0.wjd8cnOYRD1Kgb1pRyfCDmpiOgq4LV15LXRn5YT7mWs"
+);
+
+let currentUser = null;
+let currentRole = null;
+
+// ---------------- ALAP FÜGGVÉNYEK ----------------
+function showSection(id){
+    document.querySelectorAll(".section")
+        .forEach(s => s.style.display="none");
+    document.getElementById(id).style.display="block";
+}
+
+async function logout(){
+    await client.auth.signOut();
+    window.location.href="register_signIn.html";
+}
+
+// ---------------- USER CHECK + ROLE ----------------
+async function checkUser(){
+    const { data:{ user } } = await client.auth.getUser();
+
+    if(!user){
+        window.location.href="login.html";
+        return;
+    }
+
+    currentUser = user;
+
+    // Lekérjük a role-t a profiles táblából
+    const { data:profile, error } = await client
+        .from("profiles")
+        .select("role")
+        .eq("id", currentUser.id)
+        .single();
+
+    if(error) {
+        console.error("Profile fetch error:", error);
+        currentRole = "student"; // default
+    } else {
+        currentRole = profile?.role || "student";
+    }
+
+    await loadHelperData();
+    await loadStudentData();
+
+    // Role alapján jelenítjük meg az elejét
+    if(currentRole === "helper") showSection("helper");
+    else showSection("student");
+}
+
+// ---------------- HELPER RÉSZ ----------------
+async function createAvailability(){
+
+    const start = document.getElementById("startTime").value;
+    const end = document.getElementById("endTime").value;
+
+    if(!start || !end){
+        alert("Adj meg időpontot!");
+        return;
+    }
+
+    await client.from("availabilities").insert({
+        user_id: currentUser.id,
+        start_time: start,
+        end_time: end,
+        is_booked: false
+    });
+
+    alert("Időpont létrehozva!");
+    loadHelperData();
+}
+
+async function loadHelperData(){
+
+    if(currentRole !== "helper") return;
+
+    // Saját időpontok
+    const { data:slots } = await client
+        .from("availabilities")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("start_time", { ascending:true });
+
+    const container = document.getElementById("myAvailabilities");
+    container.innerHTML="";
+
+    slots?.forEach(slot=>{
+        container.innerHTML+=`
+        <div class="card">
+        ${new Date(slot.start_time).toLocaleString()} -
+        ${new Date(slot.end_time).toLocaleString()}
+        <br>Foglalt: ${slot.is_booked ? "Igen" : "Nem"}
+        </div>`;
+    });
+
+    // Hozzám foglalt
+    const { data:sessions } = await client
+        .from("sessions")
+        .select(`
+            *,
+            profiles!sessions_student_id_fkey(full_name)
+        `)
+        .eq("helper_id", currentUser.id);
+
+    const bookedContainer=document.getElementById("bookedToMe");
+    bookedContainer.innerHTML="";
+
+    sessions?.forEach(s=>{
+        bookedContainer.innerHTML+=`
+        <div class="card">
+        Diák: ${s.profiles?.full_name || "Ismeretlen"}
+        <br>${new Date(s.start_time).toLocaleString()}
+        </div>`;
+    });
+}
+
+// ---------------- STUDENT RÉSZ ----------------
+async function loadStudentData(){
+
+    if(currentRole !== "student") return;
+
+    // Szabad időpontok
+    const { data:slots } = await client
+        .from("availabilities")
+        .select(`
+            *,
+            profiles(full_name)
+        `)
+        .eq("is_booked", false);
+
+    const container=document.getElementById("availableSlots");
+    container.innerHTML="";
+
+    slots?.forEach(slot=>{
+        if(slot.user_id === currentUser.id) return;
+
+        container.innerHTML+=`
+        <div class="card">
+        Helper: ${slot.profiles?.full_name || "Ismeretlen"}
+        <br>${new Date(slot.start_time).toLocaleString()}
+        <br>
+        <button onclick="bookSlot('${slot.id}','${slot.user_id}','${slot.start_time}','${slot.end_time}')">
+        Foglalás
+        </button>
+        </div>`;
+    });
+
+    // Saját foglalások
+    const { data:mySessions } = await client
+        .from("sessions")
+        .select(`
+            *,
+            profiles!sessions_helper_id_fkey(full_name)
+        `)
+        .eq("student_id", currentUser.id);
+
+    const myContainer=document.getElementById("myBookings");
+    myContainer.innerHTML="";
+
+    mySessions?.forEach(s=>{
+        myContainer.innerHTML+=`
+        <div class="card">
+        Helper: ${s.profiles?.full_name || "Ismeretlen"}
+        <br>${new Date(s.start_time).toLocaleString()}
+        </div>`;
+    });
+}
+
+// ---------------- FOGALÁS ----------------
+async function bookSlot(avId, helperId, start, end){
+
+    await client.from("sessions").insert({
+        helper_id: helperId,
+        student_id: currentUser.id,
+        start_time: start,
+        end_time: end,
+        status: "booked"
+    });
+
+    await client.from("availabilities")
+        .update({ is_booked:true })
+        .eq("id", avId);
+
+    alert("Foglalás sikeres!");
+    loadStudentData();
+    loadHelperData();
+}
+
+// ---------------- INIT ----------------
+checkUser();
+
+</script>
+
+</body>
 </html>
