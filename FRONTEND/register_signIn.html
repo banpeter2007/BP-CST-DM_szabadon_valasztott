@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduShare | Sign In</title>
 
-    <link rel="icon" type="image/png" href="../kepek/title_icon2.png">
+    <link rel="icon" type="image/png" href="../FRONTEND/kepek/title_icon2.png">
 
     <!--Google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,6 +54,12 @@
         border-top: 3px solid rgba(115, 165, 189, 0.64);
     }
 
+    @media screen and (max-width: 768px){
+        #signInBox{
+            width: 50%;
+        }
+    }
+
     .inputs{
         padding: 2% 3%;
         width: 75%;
@@ -72,7 +78,6 @@
         border-radius: 10px;
         background-color: #536c80;
         color: white;
-        font-weight: bold;
         transition: transform 0.2s ease-in-out;
     }
 
@@ -106,7 +111,7 @@
     <div id="baseBox">
 
         <div id="logoImage">
-            <img src="../kepek/main_logo.png" alt="" height="70px" width="auto">
+            <img src="../FRONTEND/kepek/main_logo.png" alt="" height="70px" width="auto">
         </div>
 
         <div id="signInBox">
@@ -182,7 +187,7 @@
         });
 
         if (error) {
-            alert("Hibás email vagy jelszó!");
+            alert("Ilyen fiók nem létezik!");
             console.error(error.message);
         } else {
             // Sikeres login
