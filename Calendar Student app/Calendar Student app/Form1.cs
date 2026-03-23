@@ -16,5 +16,10 @@ namespace Calendar_Student_app
         {
             InitializeComponent();
         }
+
+        private void exit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

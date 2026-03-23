@@ -1,0 +1,10 @@
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\bin\Debug\Calendar Student app.exe.config
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\bin\Debug\Calendar Student app.exe
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\bin\Debug\Calendar Student app.pdb
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\obj\Debug\Calendar Student app.csproj.AssemblyReference.cache
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\obj\Debug\Calendar_Student_app.Form1.resources
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\obj\Debug\Calendar_Student_app.Properties.Resources.resources
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\obj\Debug\Calendar Student app.csproj.GenerateResource.cache
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\obj\Debug\Calendar Student app.csproj.CoreCompileInputs.cache
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\obj\Debug\Calendar Student app.exe
+C:\Users\DavidMarcell\Documents\GitHub\BP-CST-DM_szabadon_valasztott\Calendar Student app\Calendar Student app\obj\Debug\Calendar Student app.pdb

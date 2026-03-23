@@ -110,6 +110,7 @@
             this.exit.TabIndex = 21;
             this.exit.Text = "X";
             this.exit.UseVisualStyleBackColor = false;
+            this.exit.Click += new System.EventHandler(this.exit_Click);
             // 
             // label7
             // 
@@ -582,7 +583,9 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.flowLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
