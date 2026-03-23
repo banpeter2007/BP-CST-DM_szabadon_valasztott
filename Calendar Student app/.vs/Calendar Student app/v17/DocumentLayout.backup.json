@@ -1,9 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\DavidMarcell\\source\\repos\\Calendar Student app\\",
+  "WorkspaceRootPath": "C:\\Users\\DavidMarcell\\Documents\\GitHub\\BP-CST-DM_szabadon_valasztott\\Calendar Student app\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0FB300C1-5F2E-4968-A7D3-78434659C670}|Calendar Student app\\Calendar Student app.csproj|c:\\users\\davidmarcell\\source\\repos\\calendar student app\\calendar student app\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{0FB300C1-5F2E-4968-A7D3-78434659C670}|Calendar Student app\\Calendar Student app.csproj|C:\\Users\\DavidMarcell\\Documents\\GitHub\\BP-CST-DM_szabadon_valasztott\\Calendar Student app\\calendar student app\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FB300C1-5F2E-4968-A7D3-78434659C670}|Calendar Student app\\Calendar Student app.csproj|solutionrelative:calendar student app\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FB300C1-5F2E-4968-A7D3-78434659C670}|Calendar Student app\\Calendar Student app.csproj|c:\\users\\davidmarcell\\documents\\github\\bp-cst-dm_szabadon_valasztott\\calendar student app\\calendar student app\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{0FB300C1-5F2E-4968-A7D3-78434659C670}|Calendar Student app\\Calendar Student app.csproj|solutionrelative:calendar student app\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -19,10 +23,23 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\DavidMarcell\\source\\repos\\Calendar Student app\\Calendar Student app\\Form1.cs",
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\DavidMarcell\\Documents\\GitHub\\BP-CST-DM_szabadon_valasztott\\Calendar Student app\\Calendar Student app\\Form1.cs",
               "RelativeDocumentMoniker": "Calendar Student app\\Form1.cs",
-              "ToolTip": "C:\\Users\\DavidMarcell\\source\\repos\\Calendar Student app\\Calendar Student app\\Form1.cs [Design]",
+              "ToolTip": "C:\\Users\\DavidMarcell\\Documents\\GitHub\\BP-CST-DM_szabadon_valasztott\\Calendar Student app\\Calendar Student app\\Form1.cs",
+              "RelativeToolTip": "Calendar Student app\\Form1.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAqwAIAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T08:52:58.157Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\DavidMarcell\\Documents\\GitHub\\BP-CST-DM_szabadon_valasztott\\Calendar Student app\\Calendar Student app\\Form1.cs",
+              "RelativeDocumentMoniker": "Calendar Student app\\Form1.cs",
+              "ToolTip": "C:\\Users\\DavidMarcell\\Documents\\GitHub\\BP-CST-DM_szabadon_valasztott\\Calendar Student app\\Calendar Student app\\Form1.cs [Design]",
               "RelativeToolTip": "Calendar Student app\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-23T08:36:32.101Z",
