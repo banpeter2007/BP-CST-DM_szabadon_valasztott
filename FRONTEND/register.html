@@ -62,6 +62,13 @@ width:75%;
 margin:auto;
 border-radius:10px;
 border:1px solid #ccc;
+transition: all 0.3s ease;
+}
+
+.inputs:focus {
+    outline: none;
+    border-color: #536c80;
+    box-shadow: 0 0 5px rgba(83, 108, 128, 0.3);
 }
 
 .inputs:hover{
@@ -78,10 +85,18 @@ color:white;
 cursor:pointer;
 transition:0.2s;
 border:none;
+font-weight: bold;
 }
 
-#RegisterButton:hover{
+#RegisterButton:hover:not(:disabled){
 transform:scale(1.05);
+background:#405464;
+}
+
+#RegisterButton:disabled {
+    background:#a0a0a0;
+    cursor: not-allowed;
+    transform: none;
 }
 
 #place_for_error_message{
@@ -90,6 +105,7 @@ transition:opacity 0.5s ease;
 text-align:center;
 margin-top:-10px;
 font-weight:bold;
+font-size: 14px;
 }
 
 #createOneAccountParagraph{
@@ -98,6 +114,8 @@ text-align:center;
 
 #createOneAccountLink{
 text-decoration:none;
+color: #536c80;
+font-weight: bold;
 }
 
 #createOneAccountLink:hover{
@@ -112,17 +130,17 @@ text-decoration:underline;
 <div id="baseBox">
 
 <div id="logoImage">
-<img src="../FRONTEND/kepek/main_logo.png" height="70">
+<img src="kepek/main_logo.png" height="70">
 </div>
 
 <div id="RegisterBox">
 
-<p style="text-align:center;">Regisztráció</p>
+<p style="text-align:center; font-size: 20px; font-weight: bold; color: #536c80;">Regisztráció</p>
 
 <input type="text" placeholder="Vezetéknév" class="inputs" id="lastName_input">
 <input type="text" placeholder="Keresztnév" class="inputs" id="firstName_input">
-<input type="text" placeholder="E-mail" class="inputs" id="email_input">
-<input type="password" placeholder="Jelszó" class="inputs" id="password_input">
+<input type="email" placeholder="E-mail" class="inputs" id="email_input">
+<input type="password" placeholder="Jelszó (min. 6 karakter, kis- és nagybetű, szám)" class="inputs" id="password_input">
 
 <p id="place_for_error_message"></p>
 
@@ -138,96 +156,197 @@ Van már fiókod?
 
 <script>
 
-// SUPABASE
+// SUPABASE KONFIGURÁCIÓ
 const supabaseUrl = "https://mwtkgtkkzlemolumlxab.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13dGtndGtremxlbW9sdW1seGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTc5MDksImV4cCI6MjA4Njc5MzkwOX0.wjd8cnOYRD1Kgb1pRyfCDmpiOgq4LV15LXRn5YT7mWs";
 
 const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// ERROR MESSAGE BOX
+// ELEMEK LEKÉRÉSE
 const errorBox = document.getElementById("place_for_error_message");
+const registerBtn = document.getElementById("RegisterButton");
 
-function showMessage(text,color){
+// HIBAÜZENET MEGJELENÍTÉSE
+function showMessage(text, color, duration = 3000) {
+    errorBox.textContent = text;
+    errorBox.style.color = color;
+    errorBox.style.opacity = "1";
 
-errorBox.textContent=text;
-errorBox.style.color=color;
-errorBox.style.opacity="1";
-
-setTimeout(()=>{
-errorBox.style.opacity="0";
-
-setTimeout(()=>{
-errorBox.textContent="";
-},500);
-
-},2000);
-
+    setTimeout(() => {
+        errorBox.style.opacity = "0";
+        setTimeout(() => {
+            if (errorBox.textContent === text) {
+                errorBox.textContent = "";
+            }
+        }, 500);
+    }, duration);
 }
 
-// INPUT CLEAR ERROR
-document.querySelectorAll(".inputs").forEach(input=>{
-input.addEventListener("input",()=>{
-errorBox.style.opacity="0";
-});
-});
-
-// REGISTER
-document.getElementById("RegisterButton").addEventListener("click", async function(){
-
-const lastName=document.getElementById("lastName_input").value.trim();
-const firstName=document.getElementById("firstName_input").value.trim();
-const email=document.getElementById("email_input").value.trim();
-const password=document.getElementById("password_input").value;
-
-const fullName=lastName+" "+firstName;
-
-// REGEX
-const nameRegex=/^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$/;
-const emailRegex=/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
-const passwordRegex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-
-// VALIDATION
-if(!nameRegex.test(lastName) ||
-   !nameRegex.test(firstName) ||
-   !emailRegex.test(email) ||
-   !passwordRegex.test(password)){
-
-showMessage("Kérem érvényes adatokat adjon meg!","red");
-return;
-
-}
-
-// SUPABASE REGISTER
-const {data,error}=await supabaseClient.auth.signUp({
-email:email,
-password:password
+// INPUT MEZŐK TISZTÍTÁSA HIBA ESETÉN
+document.querySelectorAll(".inputs").forEach(input => {
+    input.addEventListener("input", () => {
+        errorBox.style.opacity = "0";
+    });
 });
 
-if(error){
-showMessage("Hiba a regisztráció során!","red");
-console.error(error.message);
-return;
-}
-
-// PROFILE INSERT
-await supabaseClient.from("profiles").insert({
-id:data.user.id,
-full_name:fullName,
-role:"student"
+// REGISZTRÁCIÓS FÜGGVÉNY
+document.getElementById("RegisterButton").addEventListener("click", async function() {
+    
+    // ADATOK BEOLVASÁSA
+    const lastName = document.getElementById("lastName_input").value.trim();
+    const firstName = document.getElementById("firstName_input").value.trim();
+    const email = document.getElementById("email_input").value.trim();
+    const password = document.getElementById("password_input").value;
+    
+    const fullName = lastName + " " + firstName;
+    
+    // VALIDÁCIÓS SZABÁLYOK
+    const nameRegex = /^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    
+    // MEZŐK ELLENŐRZÉSE
+    if (!lastName || !firstName || !email || !password) {
+        showMessage("Kérlek tölts ki minden mezőt!", "red");
+        return;
+    }
+    
+    if (!nameRegex.test(lastName)) {
+        showMessage("A vezetéknév nagybetűvel kezdődjön és csak betűket tartalmazzon!", "red");
+        return;
+    }
+    
+    if (!nameRegex.test(firstName)) {
+        showMessage("A keresztnév nagybetűvel kezdődjön és csak betűket tartalmazzon!", "red");
+        return;
+    }
+    
+    if (!emailRegex.test(email)) {
+        showMessage("Kérlek érvényes email címet adj meg!", "red");
+        return;
+    }
+    
+    if (!passwordRegex.test(password)) {
+        showMessage("A jelszónak legalább 6 karakter hosszúnak kell lennie, tartalmaznia kell kisbetűt, nagybetűt és számot!", "red");
+        return;
+    }
+    
+    // GOMB LETILTÁSA A TÖBBSZÖRI KATTINTÁS ELKERÜLÉSÉRE
+    registerBtn.disabled = true;
+    registerBtn.textContent = "⏳ Regisztráció folyamatban...";
+    
+    try {
+        // 1. REGISZTRÁCIÓ SUPABASE-BEN
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: fullName
+                }
+            }
+        });
+        
+        // HIBAKEZELÉS
+        if (error) {
+            console.error("Auth hiba részletesen:", error);
+            
+            // KÜLÖNBÖZŐ HIBAÜZENETEK KEZELÉSE
+            if (error.message.includes("rate limit")) {
+                showMessage("❌ Túl sok regisztrációs kísérlet! Kérlek várj egy órát, vagy használj másik email címet.", "orange", 5000);
+            } else if (error.message.includes("User already registered")) {
+                showMessage("❌ Ez az email cím már regisztrálva van! Kérlek jelentkezz be.", "red", 4000);
+            } else {
+                showMessage("❌ Hiba a regisztráció során: " + error.message, "red", 4000);
+            }
+            
+            registerBtn.disabled = false;
+            registerBtn.textContent = "Regisztrálok!";
+            return;
+        }
+        
+        // ELLENŐRIZZÜK, HOGY LÉTEZIK-E A FELHASZNÁLÓ
+        if (!data || !data.user) {
+            console.error("Nincs user adat a válaszban");
+            showMessage("❌ Hiba történt a regisztráció során! Kérlek próbáld újra.", "red");
+            registerBtn.disabled = false;
+            registerBtn.textContent = "Regisztrálok!";
+            return;
+        }
+        
+        console.log("✅ Sikeres regisztráció, user ID:", data.user.id);
+        
+        // 2. PROFIL BESZÚRÁSA A PROFILES TÁBLÁBA
+        const { error: profileError } = await supabaseClient
+            .from("profiles")
+            .insert({
+                id: data.user.id,
+                full_name: fullName,
+                grade: null,
+                bio: null
+            });
+        
+        if (profileError) {
+            console.error("❌ Profile beszúrás hiba:", profileError);
+            
+            // HA A PROFIL BESZÚRÁS NEM SIKERÜLT, DE A FELHASZNÁLÓ LÉTREJÖTT
+            if (profileError.message.includes("duplicate key")) {
+                showMessage("⚠️ A profil már létezik! Bejelentkezhetsz.", "orange", 3000);
+            } else {
+                showMessage("⚠️ A regisztráció megtörtént, de a profil mentése nem sikerült! Kérlek jelentkezz be.", "orange", 4000);
+            }
+            
+            setTimeout(() => {
+                window.location.href = "register_signIn.html";
+            }, 3000);
+            return;
+        }
+        
+        console.log("✅ Profile sikeresen mentve a profiles táblába");
+        
+        // 3. ELLENŐRZÉS - BIZTOS BESZÚRÓDOTT-E
+        const { data: checkProfile, error: checkError } = await supabaseClient
+            .from("profiles")
+            .select("id, full_name")
+            .eq("id", data.user.id)
+            .single();
+        
+        if (checkError) {
+            console.warn("⚠️ Profil ellenőrzés sikertelen:", checkError);
+        } else {
+            console.log("✅ Profil ellenőrizve:", checkProfile);
+        }
+        
+        // INPUT MEZŐK ÜRÍTÉSE
+        document.getElementById("lastName_input").value = "";
+        document.getElementById("firstName_input").value = "";
+        document.getElementById("email_input").value = "";
+        document.getElementById("password_input").value = "";
+        
+        // SIKERES ÜZENET
+        showMessage("✅ Sikeres regisztráció! Átirányítás a bejelentkezéshez...", "green", 2000);
+        
+        // ÁTIRÁNYÍTÁS A BEJELENTKEZÉSI OLDALRA
+        setTimeout(() => {
+            window.location.href = "register_signIn.html";
+        }, 2000);
+        
+    } catch (err) {
+        console.error("❌ Váratlan hiba:", err);
+        showMessage("❌ Váratlan hiba történt! Kérlek próbáld újra később.", "red", 4000);
+        registerBtn.disabled = false;
+        registerBtn.textContent = "Regisztrálok!";
+    }
 });
 
-// CLEAR INPUTS
-document.querySelectorAll(".inputs").forEach(input=>{
-input.value="";
-});
-
-showMessage("Sikeres regisztráció!","green");
-
-// REDIRECT
-setTimeout(()=>{
-window.location.href="register_signIn.html";
-},2000);
-
+// ENTER BILLENTYŰVEL IS LEHESSEN REGISZTRÁLNI
+document.querySelectorAll(".inputs").forEach(input => {
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("RegisterButton").click();
+        }
+    });
 });
 
 </script>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EduShare | Korrepetálás</title>
 
-<link rel="icon" type="image/png" href="../kepek/title_icon2.png">
+<link rel="icon" type="image/png" href="kepek/title_icon2.png">
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <style>
@@ -17,7 +17,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    background: #e3f2fd;  /* Világoskék háttér */
+    background: #e3f2fd;
     min-height: 100vh;
     padding: 20px;
 }
@@ -42,13 +42,13 @@ nav button {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: #64b5f6;  /* Világoskék gomb */
+    background: #64b5f6;
     color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 nav button:hover {
-    background: #42a5f5;  /* Sötétebb kék hover */
+    background: #42a5f5;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
@@ -62,7 +62,7 @@ nav button:hover {
 }
 
 h2 {
-    color: #1976d2;  /* Sötétkék címsor */
+    color: #1976d2;
     margin-bottom: 20px;
     font-size: 24px;
     border-bottom: 2px solid #64b5f6;
@@ -101,14 +101,9 @@ h3 {
     opacity: 0.9;
 }
 
-.past-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
 .helper-name {
     font-size: 1.3em;
-    color: #1976d2;  /* Sötétkék név */
+    color: #1976d2;
     margin-bottom: 15px;
     font-weight: 700;
     display: flex;
@@ -134,7 +129,7 @@ h3 {
 
 .tag {
     display: inline-block;
-    background: #e3f2fd;  /* Világoskék címke */
+    background: #e3f2fd;
     padding: 6px 12px;
     margin: 3px;
     border-radius: 16px;
@@ -182,7 +177,7 @@ h3 {
 
 .book-btn {
     padding: 12px 25px;
-    background: #64b5f6;  /* Világoskék gomb */
+    background: #64b5f6;
     color: white;
     border: none;
     border-radius: 25px;
@@ -197,7 +192,7 @@ h3 {
 }
 
 .book-btn:hover:not(:disabled) {
-    background: #42a5f5;  /* Sötétebb kék hover */
+    background: #42a5f5;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
@@ -238,14 +233,14 @@ input[type="datetime-local"] {
 }
 
 input[type="datetime-local"]:focus {
-    border-color: #64b5f6;  /* Világoskék fókusz */
+    border-color: #64b5f6;
     outline: none;
     box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
 }
 
 .create-btn {
     padding: 12px 30px;
-    background: #64b5f6;  /* Világoskék gomb */
+    background: #64b5f6;
     color: white;
     border: none;
     border-radius: 8px;
@@ -257,7 +252,7 @@ input[type="datetime-local"]:focus {
 }
 
 .create-btn:hover {
-    background: #42a5f5;  /* Sötétebb kék hover */
+    background: #42a5f5;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
@@ -270,6 +265,61 @@ input[type="datetime-local"]:focus {
     background: #f9f9f9;
     border-radius: 8px;
     border: 1px solid #ddd;
+}
+
+/* Új stílusok a legördülő listákhoz */
+.strength-weakness-section {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid #e0e0e0;
+}
+
+.strength-weakness-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.select-group {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.select-group label {
+    font-weight: 600;
+    min-width: 120px;
+    color: #555;
+}
+
+select {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    flex: 1;
+    min-width: 200px;
+    background: white;
+}
+
+.save-btn {
+    background: #4caf50;
+    padding: 10px 25px;
+    margin-top: 10px;
+}
+
+.save-btn:hover {
+    background: #45a049;
+}
+
+.current-items {
+    margin-top: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
 }
 
 @media (max-width: 768px) {
@@ -302,6 +352,31 @@ input[type="datetime-local"]:focus {
 </nav>
 
 <div id="helper" class="section">
+    <h2>📚 Erősségeim / Gyengeségeim</h2>
+    <div class="strength-weakness-section">
+        <h3>Erősségek (max 2)</h3>
+        <div class="select-group">
+            <label>1. erősség:</label>
+            <select id="strength1"></select>
+        </div>
+        <div class="select-group">
+            <label>2. erősség:</label>
+            <select id="strength2"></select>
+        </div>
+        
+        <h3>Gyengeségek (max 1)</h3>
+        <div class="select-group">
+            <label>1. gyengeség:</label>
+            <select id="weakness1"></select>
+        </div>
+        
+        <div class="select-group">
+            <button class="save-btn" onclick="saveStrengthsWeaknesses()">💾 Mentés</button>
+        </div>
+        
+        <div class="current-items" id="currentStrengthsWeaknesses"></div>
+    </div>
+
     <h2>📅 Új időpont létrehozása</h2>
     <div class="input-group">
         <input type="datetime-local" id="startTime" required>
@@ -335,6 +410,7 @@ const client = supabase.createClient(
 
 let currentUser = null;
 let subjectsMap = {};
+let subjectsList = [];
 
 function showSection(id) {
     document.querySelectorAll(".section").forEach(s => s.style.display = "none");
@@ -358,6 +434,7 @@ async function checkUser() {
     console.log("Bejelentkezett user:", currentUser.id);
     
     await loadSubjects();
+    await loadUserStrengthsWeaknesses();
     await loadHelperData();
     await loadStudentData();
     
@@ -367,16 +444,115 @@ async function checkUser() {
 async function loadSubjects() {
     const { data: subjects } = await client
         .from("subjects")
-        .select("id, name");
+        .select("id, name")
+        .order("name");
     
     subjectsMap = {};
+    subjectsList = subjects || [];
     subjects?.forEach(subject => {
         subjectsMap[subject.id] = subject.name;
     });
+    
+    // Legördülő listák feltöltése
+    populateSelects();
 }
 
-function getSubjectName(subjectId) {
-    return subjectsMap[subjectId] || "Ismeretlen tantárgy";
+function populateSelects() {
+    const selects = ["strength1", "strength2", "weakness1"];
+    
+    selects.forEach(selectId => {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+        
+        select.innerHTML = '<option value="">-- Válassz tantárgyat --</option>';
+        subjectsList.forEach(subject => {
+            const option = document.createElement("option");
+            option.value = subject.id;
+            option.textContent = subject.name;
+            select.appendChild(option);
+        });
+    });
+}
+
+async function loadUserStrengthsWeaknesses() {
+    // Erősségek betöltése
+    const { data: strengths } = await client
+        .from("user_strengths")
+        .select("subject_id")
+        .eq("user_id", currentUser.id);
+    
+    // Gyengeségek betöltése
+    const { data: weaknesses } = await client
+        .from("user_needs")
+        .select("subject_id")
+        .eq("user_id", currentUser.id);
+    
+    // Select mezők beállítása
+    const strengthSubjects = strengths?.map(s => s.subject_id) || [];
+    const weaknessSubjects = weaknesses?.map(w => w.subject_id) || [];
+    
+    document.getElementById("strength1").value = strengthSubjects[0] || "";
+    document.getElementById("strength2").value = strengthSubjects[1] || "";
+    document.getElementById("weakness1").value = weaknessSubjects[0] || "";
+    
+    // Jelenlegi értékek megjelenítése
+    displayCurrentItems(strengthSubjects, weaknessSubjects);
+}
+
+function displayCurrentItems(strengths, weaknesses) {
+    const container = document.getElementById("currentStrengthsWeaknesses");
+    if (!container) return;
+    
+    const strengthNames = strengths.map(id => subjectsMap[id]).filter(n => n);
+    const weaknessNames = weaknesses.map(id => subjectsMap[id]).filter(n => n);
+    
+    container.innerHTML = `
+        <strong>📌 Jelenlegi beállítások:</strong><br>
+        🔹 Erősségek: ${strengthNames.length ? strengthNames.join(", ") : "Nincs megadva"}<br>
+        🔸 Gyengeségek: ${weaknessNames.length ? weaknessNames.join(", ") : "Nincs megadva"}
+    `;
+}
+
+async function saveStrengthsWeaknesses() {
+    const strength1 = document.getElementById("strength1").value;
+    const strength2 = document.getElementById("strength2").value;
+    const weakness1 = document.getElementById("weakness1").value;
+    
+    // Összegyűjtjük a kiválasztott erősségeket (üres értékeket kihagyjuk)
+    const newStrengths = [];
+    if (strength1) newStrengths.push(strength1);
+    if (strength2) newStrengths.push(strength2);
+    
+    const newWeaknesses = [];
+    if (weakness1) newWeaknesses.push(weakness1);
+    
+    // 1. Töröljük a régi erősségeket
+    await client.from("user_strengths").delete().eq("user_id", currentUser.id);
+    
+    // 2. Beszúrjuk az új erősségeket
+    for (const subjectId of newStrengths) {
+        await client.from("user_strengths").insert({
+            user_id: currentUser.id,
+            subject_id: subjectId
+        });
+    }
+    
+    // 3. Töröljük a régi gyengeségeket
+    await client.from("user_needs").delete().eq("user_id", currentUser.id);
+    
+    // 4. Beszúrjuk az új gyengeségeket
+    for (const subjectId of newWeaknesses) {
+        await client.from("user_needs").insert({
+            user_id: currentUser.id,
+            subject_id: subjectId
+        });
+    }
+    
+    alert("✅ Erősségek és gyengeségek sikeresen mentve!");
+    
+    // Frissítjük a megjelenítést és a tanuló oldali adatokat is
+    await loadUserStrengthsWeaknesses();
+    await loadStudentData(); // hogy a tanuló oldalon is frissüljenek a megjelenített erősségek/gyengeségek
 }
 
 async function createAvailability() {
@@ -508,101 +684,95 @@ async function loadStudentData() {
     if (!slots?.length) {
         availableContainer.innerHTML = '<div class="empty-message">Nincsenek elérhető időpontok</div>';
         pastContainer.innerHTML = '<div class="empty-message">Nincsenek múltbeli időpontok</div>';
-        return;
-    }
-    
-    // Értékelések előzetes betöltése
-    const { data: allReviews } = await client
-        .from("reviews")
-        .select("*");
-    
-    const reviewsByUser = {};
-    allReviews?.forEach(review => {
-        if (!reviewsByUser[review.reviewed_user_id]) {
-            reviewsByUser[review.reviewed_user_id] = [];
-        }
-        reviewsByUser[review.reviewed_user_id].push(review);
-    });
-    
-    for (const slot of slots) {
-        if (slot.user_id === currentUser.id) continue;
+    } else {
+        // Értékelések előzetes betöltése
+        const { data: allReviews } = await client
+            .from("reviews")
+            .select("*");
         
-        const start = new Date(slot.start_time);
-        const isPast = start < now;
+        const reviewsByUser = {};
+        allReviews?.forEach(review => {
+            if (!reviewsByUser[review.reviewed_user_id]) {
+                reviewsByUser[review.reviewed_user_id] = [];
+            }
+            reviewsByUser[review.reviewed_user_id].push(review);
+        });
         
-        // Erősségek és gyengeségek
-        const userStrengths = strengthsByUser[slot.user_id] || [];
-        const userNeeds = needsByUser[slot.user_id] || [];
-        
-        // Erősségek megjelenítése
-        const strongList = userStrengths.length 
-            ? userStrengths.map(s => `<span class="tag">${s}</span>`).join("")
-            : "<span class='tag'>Nincs megadva</span>";
-        
-        // Gyengeségek megjelenítése
-        const weakList = userNeeds.length 
-            ? userNeeds.map(n => `<span class="tag tagWeak">${n}</span>`).join("")
-            : "<span class='tag tagWeak'>Nincs megadva</span>";
-        
-        // Értékelések
-        const userReviews = reviewsByUser[slot.user_id] || [];
-        const firstTwoReviews = userReviews.slice(0, 2);
-        
-        let avg = 0;
-        let reviewHtml = "";
-        
-        if (userReviews.length) {
-            avg = (userReviews.reduce((a, b) => a + b.rating, 0) / userReviews.length).toFixed(1);
-            firstTwoReviews.forEach(r => {
-                reviewHtml += `<div class="comment">⭐ ${r.rating} - ${r.comment || "Nincs szöveg"}</div>`;
-            });
-        }
-        
-        const cardClass = isPast ? 'card past-card' : 'card';
-        const pastBadge = isPast ? '<span class="past-badge">Múltbeli</span>' : '';
-        
-        // Foglalás gomb csak akkor, ha nem múltbeli
-        const bookButton = !isPast ? `
-            <button class="book-btn" onclick="bookSlot('${slot.id}','${slot.user_id}','${slot.start_time}','${slot.end_time}')">
-                📅 Foglalás
-            </button>
-        ` : '';
-        
-        const card = `
-            <div class="${cardClass}">
-                <div class="helper-name">
-                    👤 ${slot.profiles?.full_name || "Ismeretlen"}
-                    ${pastBadge}
+        for (const slot of slots) {
+            if (slot.user_id === currentUser.id) continue;
+            
+            const start = new Date(slot.start_time);
+            const isPast = start < now;
+            
+            const userStrengths = strengthsByUser[slot.user_id] || [];
+            const userNeeds = needsByUser[slot.user_id] || [];
+            
+            const strongList = userStrengths.length 
+                ? userStrengths.map(s => `<span class="tag">${s}</span>`).join("")
+                : "<span class='tag'>Nincs megadva</span>";
+            
+            const weakList = userNeeds.length 
+                ? userNeeds.map(n => `<span class="tag tagWeak">${n}</span>`).join("")
+                : "<span class='tag tagWeak'>Nincs megadva</span>";
+            
+            const userReviews = reviewsByUser[slot.user_id] || [];
+            const firstTwoReviews = userReviews.slice(0, 2);
+            
+            let avg = 0;
+            let reviewHtml = "";
+            
+            if (userReviews.length) {
+                avg = (userReviews.reduce((a, b) => a + b.rating, 0) / userReviews.length).toFixed(1);
+                firstTwoReviews.forEach(r => {
+                    reviewHtml += `<div class="comment">⭐ ${r.rating} - ${r.comment || "Nincs szöveg"}</div>`;
+                });
+            }
+            
+            const cardClass = isPast ? 'card past-card' : 'card';
+            const pastBadge = isPast ? '<span class="past-badge">Múltbeli</span>' : '';
+            
+            const bookButton = !isPast ? `
+                <button class="book-btn" onclick="bookSlot('${slot.id}','${slot.user_id}','${slot.start_time}','${slot.end_time}')">
+                    📅 Foglalás
+                </button>
+            ` : '';
+            
+            const card = `
+                <div class="${cardClass}">
+                    <div class="helper-name">
+                        👤 ${slot.profiles?.full_name || "Ismeretlen"}
+                        ${pastBadge}
+                    </div>
+                    
+                    <div class="subject-section">
+                        <div class="subject-title">📚 Erősségek:</div>
+                        ${strongList}
+                    </div>
+                    
+                    <div class="subject-section">
+                        <div class="subject-title">📖 Gyengeségek:</div>
+                        ${weakList}
+                    </div>
+                    
+                    <div class="rating">
+                        ⭐ ${avg ? avg + "/5" : "Még nincs értékelés"}
+                    </div>
+                    
+                    ${reviewHtml}
+                    
+                    <div class="datetime">
+                        📅 ${start.toLocaleString('hu-HU')}
+                    </div>
+                    
+                    ${bookButton}
                 </div>
-                
-                <div class="subject-section">
-                    <div class="subject-title">📚 Erősségek:</div>
-                    ${strongList}
-                </div>
-                
-                <div class="subject-section">
-                    <div class="subject-title">📖 Gyengeségek:</div>
-                    ${weakList}
-                </div>
-                
-                <div class="rating">
-                    ⭐ ${avg ? avg + "/5" : "Még nincs értékelés"}
-                </div>
-                
-                ${reviewHtml}
-                
-                <div class="datetime">
-                    📅 ${start.toLocaleString('hu-HU')}
-                </div>
-                
-                ${bookButton}
-            </div>
-        `;
-        
-        if (isPast) {
-            pastContainer.innerHTML += card;
-        } else {
-            availableContainer.innerHTML += card;
+            `;
+            
+            if (isPast) {
+                pastContainer.innerHTML += card;
+            } else {
+                availableContainer.innerHTML += card;
+            }
         }
     }
     
@@ -627,6 +797,10 @@ async function loadStudentData() {
             `;
         });
     }
+}
+
+function getSubjectName(subjectId) {
+    return subjectsMap[subjectId] || "Ismeretlen tantárgy";
 }
 
 async function bookSlot(avId, helperId, start, end) {
