@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.13.0 on win32)" generated="2026-03-29T14:34:22.631590" rpa="false" schemaversion="5">
+<suite id="s1" name="BP-CST-DM szabadon valasztott" source="C:\Users\csapo\Desktop\IT\Projekt feladatok\BP-CST-DM_szabadon_valasztott">
+<suite id="s1-s1" name="Robot Testing" source="C:\Users\csapo\Desktop\IT\Projekt feladatok\BP-CST-DM_szabadon_valasztott\robot_testing">
+<suite id="s1-s1-s1" name="Test" source="C:\Users\csapo\Desktop\IT\Projekt feladatok\BP-CST-DM_szabadon_valasztott\robot_testing\test.robot">
+<test id="s1-s1-s1-t1" name="Create a new date" line="5">
+<kw name="Sign in">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-03-29T14:34:22.863297" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:5500/FRONTEND/register_signIn.html'.</msg>
+<arg>http://127.0.0.1:5500/FRONTEND/register_signIn.html</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-03-29T14:34:22.862985" elapsed="0.844305"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-03-29T14:34:23.708770" level="INFO">Typing text 'anna@test.hu' into text field '//*[@id="email_input"]'.</msg>
+<arg>//*[@id="email_input"]</arg>
+<arg>anna@test.hu</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-03-29T14:34:23.708032" elapsed="0.072589"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-03-29T14:34:23.781339" level="INFO">Typing text 'Test1234!' into text field '//*[@id="password_input"]'.</msg>
+<arg>//*[@id="password_input"]</arg>
+<arg>Test1234!</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-03-29T14:34:23.780863" elapsed="0.061323"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-03-29T14:34:23.842874" level="INFO">Clicking element '//*[@id="signInButton"]'.</msg>
+<arg>//*[@id="signInButton"]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-03-29T14:34:23.842422" elapsed="0.047036"/>
+</kw>
+<status status="PASS" start="2026-03-29T14:34:22.862219" elapsed="1.027432"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>//*[@id="student"]/h2[1]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-03-29T14:34:23.889979" elapsed="1.925827"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-03-29T14:34:26.817464" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2026-03-29T14:34:25.816168" elapsed="1.002151"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-03-29T14:34:26.819754" level="INFO">Clicking element '//*[@id="korepetator"]'.</msg>
+<arg>//*[@id="korepetator"]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-03-29T14:34:26.819117" elapsed="0.079133"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-03-29T14:34:29.899875" level="INFO">Slept 3 seconds.</msg>
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2026-03-29T14:34:26.898626" elapsed="3.002213"/>
+</kw>
+<status status="PASS" start="2026-03-29T14:34:22.859603" elapsed="7.041921"/>
+</test>
+<status status="PASS" start="2026-03-29T14:34:22.672400" elapsed="7.234489"/>
+</suite>
+<status status="PASS" start="2026-03-29T14:34:22.668712" elapsed="7.248302"/>
+</suite>
+<status status="PASS" start="2026-03-29T14:34:22.639446" elapsed="7.280659"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="BP-CST-DM szabadon valasztott" id="s1" pass="1" fail="0" skip="0">BP-CST-DM szabadon valasztott</stat>
+<stat name="Robot Testing" id="s1-s1" pass="1" fail="0" skip="0">BP-CST-DM szabadon valasztott.Robot Testing</stat>
+<stat name="Test" id="s1-s1-s1" pass="1" fail="0" skip="0">BP-CST-DM szabadon valasztott.Robot Testing.Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
